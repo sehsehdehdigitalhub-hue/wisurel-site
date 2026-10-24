@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#07130D"/>
+<title>Wisurel AI — Admin</title>
+<link rel="icon" type="image/svg+xml" href="wisurel-logo.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#07130D;--bg2:#0C1E14;--bg3:#0F2718;--bgi:#0A1B12;--b1:rgba(34,197,94,.14);--b2:rgba(34,197,94,.28);
+  --v:#16A34A;--t:#4ADE80;--am:#FBBF24;--rd:#F43F5E;--bl:#3B82F6;--wh:#F0EEFF;--mu:#7B7A9A;--fa:#4F4D70;
+  --aurora:linear-gradient(135deg,#166534,#22C55E,#4ADE80)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--wh);font-size:14px;min-height:100vh;-webkit-font-smoothing:antialiased}
+button,select,input,textarea{font-family:inherit;color:inherit}
+button{border:none;background:none;cursor:pointer}
+input,select,textarea{background:var(--bgi);border:.5px solid var(--b2);border-radius:9px;padding:9px 11px;font-size:13px;width:100%}
+:focus-visible{outline:2px solid var(--t);outline-offset:2px}
+.hidden{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.abtn{background:var(--aurora);color:#04140a;font-weight:700;font-size:12.5px;padding:0 16px;height:36px;border-radius:9px}
+.abtn:disabled{opacity:.5;cursor:not-allowed}
+.sm-btn{background:rgba(255,255,255,.04);border:.5px solid var(--b2);border-radius:8px;padding:0 12px;height:34px;font-size:12px;font-weight:600}
+.sm-btn:disabled{opacity:.45;cursor:not-allowed}
+.gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem}
+.gate-box{width:100%;max-width:400px;background:var(--bg2);border:.5px solid var(--b2);border-radius:16px;padding:28px}
+.gate-box img{height:46px;display:block;margin:0 auto 20px}
+.gate-box label{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mu);display:block;margin:0 0 6px}
+.gate-box .f{margin-bottom:14px}
+.note{font-size:11.5px;color:var(--mu);line-height:1.55}
+.err{color:#FCA5A5;font-size:12px;min-height:16px}
+.shell{display:flex;min-height:100vh}
+.sidebar{width:220px;background:var(--bg2);border-right:.5px solid var(--b1);flex-shrink:0;display:flex;flex-direction:column}
+.sb-logo{display:flex;align-items:center;gap:9px;padding:0 16px;height:56px;border-bottom:.5px solid var(--b1)}
+.sb-logo img{height:30px}
+.sb-badge{margin-left:auto;font-size:9.5px;font-weight:700;color:var(--am);background:rgba(251,191,36,.1);border:.5px solid rgba(251,191,36,.25);padding:2px 7px;border-radius:6px}
+.nav{display:flex;align-items:center;gap:10px;width:100%;padding:10px 16px;font-size:13px;font-weight:600;color:var(--mu);text-align:left;border-left:2.5px solid transparent}
+.nav:hover{color:var(--wh);background:rgba(255,255,255,.02)}
+.nav.on{color:var(--t);background:rgba(34,197,94,.08);border-left-color:var(--v)}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.topbar{min-height:56px;border-bottom:.5px solid var(--b1);display:flex;align-items:center;flex-wrap:wrap;padding:10px 20px;font-size:14px;font-weight:700;justify-content:space-between;gap:6px 12px}
+#top-who{min-width:0;overflow-wrap:anywhere;text-align:right}
+.content{padding:22px;overflow-y:auto}
+h1{font-size:22px;font-weight:800;margin-bottom:4px}
+.lede{font-size:12.5px;color:var(--mu);margin-bottom:18px;line-height:1.5}
+.banner{border-radius:10px;padding:10px 14px;font-size:12px;margin-bottom:16px;line-height:1.5}
+.banner.demo{background:rgba(251,191,36,.08);border:.5px solid rgba(251,191,36,.3);color:var(--am)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--bg2);border:.5px solid var(--b1);border-radius:13px;padding:15px}
+.kpi .l{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--mu)}
+.kpi .v{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:800;margin-top:6px}
+.kpi .s{font-size:11px;color:var(--fa);margin-top:3px;line-height:1.4}
+.card{background:var(--bg2);border:.5px solid var(--b1);border-radius:13px;overflow:hidden;margin-bottom:16px;position:relative}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 16px;border-bottom:.5px solid var(--b1)}
+.card-head h3{font-size:13px;font-weight:700}
+.tw{overflow-x:auto;position:relative}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--mu);padding:10px 14px;border-bottom:.5px solid var(--b1)}
+td{padding:11px 14px;font-size:12.5px;border-bottom:.5px solid var(--b1);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+.chip{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;border:.5px solid var(--b2);color:var(--t)}
+.chip.warn{color:var(--am);border-color:rgba(251,191,36,.35)}
+.chip.bad{color:#FCA5A5;border-color:rgba(244,63,94,.35)}
+.chip.off{color:var(--mu);border-color:var(--b1)}
+.empty{padding:26px 16px;text-align:center;font-size:12.5px;color:var(--mu);line-height:1.6}
+.gen{display:grid;grid-template-columns:1.4fr 1fr 110px 110px auto;gap:8px;align-items:end;padding:14px 16px}
+.gen label{font-size:10.5px;color:var(--mu);display:block;margin-bottom:5px}
+.chat{display:flex;flex-direction:column;gap:10px;padding:14px 16px;max-height:420px;overflow-y:auto}
+.msg{max-width:85%;padding:10px 13px;border-radius:12px;font-size:13px;line-height:1.55}
+.msg.u{background:var(--v);color:#04140a;font-weight:600;margin-left:auto}
+.msg.b{background:var(--bgi);border:.5px solid var(--b1)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 12px}
+.chips button{font-size:11.5px;color:var(--t);border:.5px solid var(--b2);border-radius:16px;padding:5px 10px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--bg3);border:.5px solid var(--b2);border-radius:10px;padding:10px 16px;font-size:12.5px;z-index:300;max-width:90vw}
+.toast.bad{border-color:rgba(244,63,94,.5);color:#FCA5A5}
+.modal{position:fixed;inset:0;background:rgba(3,10,6,.85);display:flex;align-items:center;justify-content:center;padding:16px;z-index:200}
+.modal-box{background:var(--bg2);border:.5px solid var(--b2);border-radius:16px;width:100%;max-width:440px;padding:22px;max-height:86vh;overflow-y:auto}
+@media (max-width:760px){
+  .shell{flex-direction:column}
+  .sidebar{width:100%;flex-direction:row;overflow-x:auto;border-right:none;border-bottom:.5px solid var(--b1)}
+  .sb-logo{border-bottom:none;flex-shrink:0}
+  .nav{width:auto;border-left:none;border-bottom:2.5px solid transparent;white-space:nowrap;padding:12px 12px}
+  .nav.on{border-bottom-color:var(--v)}
+  .content{padding:16px}
+  .gen{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- Sign-in: a real owner or admin account, checked against the database -->
+<div class="gate hidden" id="gate-real">
+  <div class="gate-box">
+    <img src="wisurel-logo.svg" alt="Wisurel Ogbomosho Farm"/>
+    <div class="f"><label for="ga-email">Email</label><input id="ga-email" type="email" autocomplete="username"/></div>
+    <div class="f"><label for="ga-pass">Password</label><input id="ga-pass" type="password" autocomplete="current-password"/></div>
+    <div class="err" id="ga-err" role="alert"></div>
+    <button class="abtn" style="width:100%" id="ga-btn" onclick="signIn()">Sign in</button>
+    <p class="note" style="margin-top:14px">Only owners and admins of a workspace can open this page. Other accounts are signed out straight away.</p>
+  </div>
+</div>
+
+<div class="shell hidden" id="shell">
+  <aside class="sidebar">
+    <div class="sb-logo"><img src="wisurel-logo.svg" alt="Wisurel Ogbomosho Farm"/><span class="sb-badge">ADMIN</span></div>
+    <button class="nav on" data-page="overview" onclick="go('overview')">Overview</button>
+    <button class="nav" data-page="members" onclick="go('members')">Members</button>
+    <button class="nav" data-page="staff" onclick="go('staff')">Staff</button>
+    <button class="nav" data-page="health" onclick="go('health')">System health</button>
+    <button class="nav" data-page="analytics" onclick="go('analytics')">AI analytics</button>
+    <div style="margin-top:auto;padding:16px" id="sb-foot"></div>
+  </aside>
+  <div class="main">
+    <div class="topbar"><span id="top-title">Overview</span><span id="top-who" style="font-size:11.5px;color:var(--mu);font-weight:600"></span></div>
+    <div class="content">
+      <div id="banner"></div>
+
+      <section id="page-overview">
+        <h1>Overview</h1>
+        <p class="lede">Everything here is counted from your workspace's records. Nothing is estimated.</p>
+        <div class="kpis" id="kpis"></div>
+        <div class="card"><div class="card-head"><h3>Queue</h3><span class="note">Live counts from the processing queue</span></div><div id="queue" class="empty"></div></div>
+      </section>
+
+      <section id="page-members" class="hidden">
+        <h1>Members</h1>
+        <p class="lede">Change roles and access here. The database checks every change, so a role can't be raised or removed from the browser alone.</p>
+        <div class="card"><div class="tw"><table><thead><tr><th>Name</th><th>Role</th><th>Access</th><th>Joined</th><th><span class="sr">Actions</span></th></tr></thead><tbody id="members-body"></tbody></table></div><div id="members-empty" class="empty hidden"></div></div>
+      </section>
+
+      <section id="page-staff" class="hidden">
+        <h1>Staff</h1>
+        <p class="lede">Invite a staff member by email. They get a link to set their own password. Accounts cannot be created from the sign-in page. Invitations are sent by the system, and the workspace and role are set on the server.</p>
+        <div class="card"><div class="gen">
+          <div><label for="sg-name">Full name</label><input id="sg-name" maxlength="120" autocomplete="off"/></div>
+          <div><label for="sg-email">Email</label><input id="sg-email" type="email" maxlength="254" autocomplete="off"/></div>
+          <div><label for="sg-role">Role</label><select id="sg-role"><option value="member">Member</option><option value="admin">Admin</option></select></div>
+          <button class="abtn" style="height:38px" id="sg-btn" onclick="inviteStaff()">Send invitation</button>
+        </div>
+        <p class="err" id="sg-err" role="alert"></p></div>
+      </section>
+
+      <section id="page-health" class="hidden">
+        <h1>System health</h1>
+        <p class="lede">Failed jobs can be retried here. Errors from individual Edge Function runs aren't stored yet, so only the job-level errors are shown.</p>
+        <div class="card"><div class="card-head"><h3>Failed jobs</h3></div><div id="failed-jobs"></div></div>
+        <div class="card"><div class="card-head"><h3>Recent processing activity</h3></div><div id="recent-jobs"></div></div>
+      </section>
+
+      <section id="page-analytics" class="hidden">
+        <h1>AI analytics</h1>
+        <p class="lede">Ask about usage in plain English. Answers are based on the 500 most recent usage records, and the model is told to say when the data can't answer a question.</p>
+        <div class="card"><div class="chat" id="chat"><div class="msg b">Ask a question, or try one of these.</div></div>
+          <div class="chips"><button onclick="askQ('Which activity used the most tokens recently?')">Which activity used the most tokens recently?</button><button onclick="askQ('How many documents failed this month?')">How many documents failed this month?</button></div>
+          <div style="display:flex;gap:8px;padding:12px 16px;border-top:.5px solid var(--b1)"><label class="sr" for="chat-in">Your question</label><input id="chat-in" maxlength="300" placeholder="Ask about usage or failures…" onkeydown="if(event.key==='Enter')sendQ()"/><button class="abtn" onclick="sendQ()" style="height:38px">Ask</button></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="modal hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-box" id="modal-box"></div></div>
+<div class="toast hidden" id="toast" role="status"></div>
+
+<script>
+/* Configuration — the same values as app.html. Required: the page does not run without them. */
+const SB_URL = "https://swfidihzmgybxmimjirk.supabase.co";
+const SB_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN3ZmlkaWh6bWd5YnhtaW1qaXJrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE5OTExNDgsImV4cCI6MjEwNzU2NzE0OH0.ArMBKLl80dtlKkyxsMS_O5BGCblrdvbZWIvlSu7SHaA";
+const AI_PROXY_URL=''; // e.g. https://YOUR_PROJECT_REF.functions.supabase.co/ai-proxy
+const BACKEND=!SB_URL.includes('YOUR_PROJECT');
+const INVITE_STAFF_URL=''; // e.g. https://YOUR_PROJECT_REF.functions.supabase.co/invite-staff
+
+let SB=null, ME=null, ORG=null, DEMO=false, members=[];
+
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmtDate=d=>d?new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'—';
+const fmtNum=n=>Number(n||0).toLocaleString('en-US');
+const $=id=>document.getElementById(id);
+
+function toast(msg,bad=false){const t=$('toast');t.textContent=msg;t.className='toast'+(bad?' bad':'');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.add('hidden'),3800);}
+function banner(html){$('banner').innerHTML=html?`<div class="banner demo">${html}</div>`:'';}
+
+/* ── Pure calculations (tested directly) ───────────────────────── */
+// Counts every figure the overview shows from raw rows. Inputs are plain arrays.
+function adminMetrics({profiles=[],files=[],jobs=[],usage=[],now=new Date()}){
+  const count=(arr,fn)=>arr.reduce((n,x)=>n+(fn(x)?1:0),0);
+  const cutoff=new Date(now.getTime()-30*86400000);
+  const tokens=usage.filter(u=>new Date(u.created_at)>=cutoff).reduce((s,u)=>s+(u.input_tokens||0)+(u.output_tokens||0),0);
+  return {
+    members:profiles.length,
+    activeMembers:count(profiles,p=>p.is_active),
+    docsDone:count(files,f=>f.status==='done'),
+    docsFailed:count(files,f=>f.status==='error'),
+    docsDuplicate:count(files,f=>f.status==='duplicate'),
+    queuePending:count(jobs,j=>j.status==='pending'&&!(j.attempts>0)),
+    queueRetrying:count(jobs,j=>j.status==='pending'&&j.attempts>0),
+    queueRunning:count(jobs,j=>j.status==='running'),
+    jobsFailed:count(jobs,j=>j.status==='failed'),
+    tokens30d:tokens,
+  };
+}
+
+// Who may change a member's role, in plain terms (the database enforces the same rules).
+function canChangeRole(me,target,newRole){
+  if(!me||!['owner','admin'].includes(me.role))return {ok:false,why:'Only owners and admins can change roles.'};
+  if(target.id===me.id)return {ok:false,why:'You can’t change your own role.'};
+  if(newRole==='owner'&&me.role!=='owner')return {ok:false,why:'Only an owner can make someone an owner.'};
+  if(target.role==='owner'&&me.role!=='owner')return {ok:false,why:'Only an owner can change another owner.'};
+  return {ok:true};
+}
+
+/* ── Sign-in and routing ───────────────────────────────────────── */
+(function boot(){
+  $('gate-real').classList.remove('hidden');
+  if(!BACKEND){
+    $('ga-err').textContent='Admin is not configured. Set SB_URL and SB_ANON in admin.html.';
+    $('ga-btn').disabled=true;
+    return;
+  }
+  SB=supabase.createClient(SB_URL,SB_ANON);
+  SB.auth.getSession().then(({data})=>{if(data.session)afterSignIn();});
+})();
+
+async function signIn(){
+  const err=$('ga-err');err.textContent='';
+  const email=$('ga-email').value.trim(),pass=$('ga-pass').value;
+  if(!email||!pass){err.textContent='Enter your email and password.';return;}
+  $('ga-btn').disabled=true;
+  const{error}=await SB.auth.signInWithPassword({email,password:pass});
+  $('ga-btn').disabled=false;
+  if(error){err.textContent='Those details did not work.';return;}
+  await afterSignIn();
+}
+
+async function afterSignIn(){
+  const{data:{user}}=await SB.auth.getUser();
+  if(!user)return;
+  const{data:p}=await SB.from('profiles').select('id,role,org_id,is_active,full_name').eq('id',user.id).maybeSingle();
+  if(!p||!p.is_active||!p.org_id||!['owner','admin'].includes(p.role)){
+    await SB.auth.signOut();
+    $('ga-err').textContent='This account is not an owner or admin of a workspace.';
+    return;
+  }
+  ME=p;ORG=p.org_id;DEMO=false;
+  showShell();
+  loadAll();
+}
+
+
+function showShell(){
+  $('gate-real').classList.add('hidden');
+  $('shell').classList.remove('hidden');
+  $('top-who').textContent=DEMO?'Preview — not connected':(ME.full_name||'Signed in')+' · '+ME.role;
+  $('sb-foot').innerHTML=DEMO?'':`<button class="sm-btn" style="width:100%" onclick="signOut()">Sign out</button>`;
+  banner(DEMO?'<b>Preview only.</b> No workspace is connected, so every figure is empty. Connect Supabase to see your real records.':'');
+}
+
+async function signOut(){if(SB)await SB.auth.signOut();location.reload();}
+
+function go(page){
+  ['overview','members','staff','health','analytics'].forEach(p=>$('page-'+p).classList.toggle('hidden',p!==page));
+  document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('on',b.dataset.page===page));
+  $('top-title').textContent={overview:'Overview',members:'Members',staff:'Staff',health:'System health',analytics:'AI analytics'}[page];
+  if(page==='members')renderMembers();
+  if(page==='health')loadHealth();
+}
+
+async function loadAll(){await Promise.all([loadOverview(),loadMembers()]);}
+
+/* ── Overview ──────────────────────────────────────────────────── */
+async function fetchAll(table,select,filter){
+  // Pages through results so counts are complete, not capped at the first page.
+  const out=[];const size=1000;
+  for(let from=0;;from+=size){
+    let q=SB.from(table).select(select).range(from,from+size-1);
+    if(filter)q=filter(q);
+    const{data,error}=await q;
+    if(error)throw error;
+    out.push(...(data||[]));
+    if(!data||data.length<size)break;
+  }
+  return out;
+}
+
+async function loadOverview(){
+  try{
+    const since=new Date(Date.now()-30*86400000).toISOString();
+    const[profiles,files,jobs,usage]=await Promise.all([
+      fetchAll('profiles','id,role,is_active'),
+      fetchAll('files','status'),
+      fetchAll('jobs','status,attempts,type,error,created_at'),
+      fetchAll('usage_events','input_tokens,output_tokens,created_at',q=>q.gte('created_at',since)),
+    ]);
+    const m=adminMetrics({profiles,files,jobs,usage});
+    renderOverview(m);renderQueue(m);
+  }catch(e){toast('Could not load the overview: '+e.message,true);}
+}
+
+function renderOverview(m){
+  const k=(l,v,s,c='var(--t)')=>`<div class="kpi"><div class="l">${esc(l)}</div><div class="v" style="color:${c}">${esc(v)}</div><div class="s">${esc(s)}</div></div>`;
+  $('kpis').innerHTML=[
+    k('Members',`${fmtNum(m.activeMembers)} / ${fmtNum(m.members)}`,'active of total accounts'),
+    k('Documents processed',fmtNum(m.docsDone),'extracted successfully'),
+    k('Documents failed',fmtNum(m.docsFailed),m.docsFailed?'open the Health page to retry':'none',m.docsFailed?'#FCA5A5':'var(--t)'),
+    k('Duplicates held',fmtNum(m.docsDuplicate),'same file already processed',m.docsDuplicate?'var(--am)':'var(--t)'),
+    k('AI tokens, 30 days',fmtNum(m.tokens30d),'input + output'),
+  ].join('');
+}
+
+function renderQueue(m){
+  const total=m.queuePending+m.queueRetrying+m.queueRunning+m.jobsFailed;
+  $('queue').innerHTML=total||!DEMO?`<div style="display:flex;gap:18px;flex-wrap:wrap;text-align:left">
+    ${[['Waiting',m.queuePending],['Retrying',m.queueRetrying],['Running',m.queueRunning],['Failed',m.jobsFailed]].map(([l,v])=>`<div><div style="font-size:10px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em">${l}</div><div style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:800">${fmtNum(v)}</div></div>`).join('')}
+    </div>`:'No processing jobs yet. Jobs appear here once receipts are queued.';
+}
+
+/* ── Members ───────────────────────────────────────────────────── */
+async function loadMembers(){
+  if(DEMO){members=[];renderMembers();return;}
+  try{members=await fetchAll('profiles','id,full_name,role,is_active,created_at');renderMembers();}
+  catch(e){toast('Could not load members: '+e.message,true);}
+}
+
+function renderMembers(){
+  const body=$('members-body');
+  if(!members.length){body.innerHTML='';$('members-empty').classList.remove('hidden');
+    $('members-empty').textContent=DEMO?'No members to show in preview mode.':'No members yet.';return;}
+  $('members-empty').classList.add('hidden');
+  body.innerHTML=members.map(p=>{
+    const self=p.id===ME.id;
+    const canEdit=!self&&(ME.role==='owner'||p.role!=='owner');
+    const roleOpts=['member','admin',...(ME.role==='owner'?['owner']:[])];
+    const roleCell=canEdit?`<label class="sr" for="role-${p.id}">Role for ${esc(p.full_name||'member')}</label><select id="role-${p.id}" onchange="changeRole('${p.id}',this.value)" style="width:auto;padding:6px 8px">${roleOpts.map(r=>`<option value="${r}" ${r===p.role?'selected':''}>${r}</option>`).join('')}</select>`:`<span class="chip">${esc(p.role)}</span>${self?' <span class="note">(you)</span>':''}`;
+    const access=p.is_active?`<span class="chip">Active</span>`:`<span class="chip off">Disabled</span>`;
+    const act=self?'':`<button class="sm-btn" onclick="toggleActive('${p.id}',${!p.is_active})" ${canEdit?'':'disabled'}>${p.is_active?'Disable access':'Restore access'}</button>`;
+    return `<tr><td style="font-weight:600">${esc(p.full_name||'Unnamed')}</td><td>${roleCell}</td><td>${access}</td><td class="note">${fmtDate(p.created_at)}</td><td style="white-space:nowrap">${act}</td></tr>`;
+  }).join('');
+}
+
+async function changeRole(id,role){
+  const target=members.find(p=>p.id===id);
+  const check=canChangeRole(ME,target,role);
+  if(!check.ok){toast(check.why,true);renderMembers();return;}
+  const{error}=await SB.rpc('admin_set_member_role',{p_user:id,p_role:role});
+  if(error){toast(error.message,true);renderMembers();return;}
+  toast('Role updated');loadMembers();
+}
+
+async function toggleActive(id,active){
+  const{error}=await SB.rpc('admin_set_member_active',{p_user:id,p_active:active});
+  if(error){toast(error.message,true);return;}
+  toast(active?'Access restored':'Access disabled');loadMembers();loadOverview();
+}
+
+/* ── Staff invitations ─────────────────────────────────────────── */
+async function inviteStaff(){
+  const err=$('sg-err');err.textContent='';
+  const full_name=$('sg-name').value.trim();
+  const email=$('sg-email').value.trim();
+  const role=$('sg-role').value;
+  if(!email){err.textContent='Enter an email address.';return;}
+  if(!INVITE_STAFF_URL){err.textContent='Invitations are not configured. Set INVITE_STAFF_URL in admin.html.';return;}
+  $('sg-btn').disabled=true;
+  try{
+    const{data:{session}}=await SB.auth.getSession();
+    const res=await fetch(INVITE_STAFF_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+(session?.access_token||'')},
+      body:JSON.stringify({email,full_name,role})
+    });
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok){err.textContent=data.error||'Could not send the invitation.';return;}
+    $('sg-name').value='';$('sg-email').value='';
+    toast('Invitation sent to '+email);
+    loadAll();
+  }catch(e){err.textContent='Could not reach the invitation service.';}
+  finally{$('sg-btn').disabled=false;}
+}
+function copyText(t){if(navigator.clipboard)navigator.clipboard.writeText(t).catch(()=>{});toast('Copied');}
+
+/* ── System health ─────────────────────────────────────────────── */
+async function loadHealth(){
+  if(DEMO){$('failed-jobs').innerHTML='<div class="empty">No failed jobs in preview mode.</div>';$('recent-jobs').innerHTML='<div class="empty">No processing activity in preview mode.</div>';return;}
+  try{
+    const jobs=await fetchAll('jobs','id,status,attempts,type,error,created_at',q=>q.order('created_at',{ascending:false}));
+    const failed=jobs.filter(j=>j.status==='failed').slice(0,50);
+    $('failed-jobs').innerHTML=failed.length?`<div class="tw"><table><thead><tr><th>Type</th><th>Attempts</th><th>Error</th><th>When</th><th><span class="sr">Actions</span></th></tr></thead><tbody>${failed.map(j=>`<tr><td>${esc(j.type)}</td><td>${j.attempts}</td><td class="note" style="max-width:320px">${esc(j.error||'No message recorded')}</td><td class="note">${fmtDate(j.created_at)}</td><td><button class="sm-btn" onclick="retryJob('${j.id}')">Retry</button></td></tr>`).join('')}</tbody></table></div>`
+      :'<div class="empty">No failed jobs. ✓</div>';
+    const recent=jobs.slice(0,20);
+    $('recent-jobs').innerHTML=recent.length?`<div class="tw"><table><thead><tr><th>Type</th><th>Status</th><th>When</th></tr></thead><tbody>${recent.map(j=>`<tr><td>${esc(j.type)}</td><td><span class="chip ${j.status==='failed'?'bad':j.status==='done'?'':'warn'}">${esc(j.status)}</span></td><td class="note">${fmtDate(j.created_at)}</td></tr>`).join('')}</tbody></table></div>`
+      :'<div class="empty">No processing activity yet.</div>';
+  }catch(e){toast('Could not load system health: '+e.message,true);}
+}
+async function retryJob(id){
+  const{error}=await SB.from('jobs').update({status:'pending',attempts:0,error:null}).eq('id',id);
+  if(error){toast('Could not retry: '+error.message,true);return;}
+  toast('Job queued again');loadHealth();loadOverview();
+}
+
+/* ── AI analytics ──────────────────────────────────────────────── */
+function addMsg(text,who){const c=$('chat');c.insertAdjacentHTML('beforeend',`<div class="msg ${who}">${esc(text)}</div>`);c.scrollTop=c.scrollHeight;}
+function askQ(q){$('chat-in').value=q;sendQ();}
+async function sendQ(){
+  const q=$('chat-in').value.trim();if(!q)return;
+  $('chat-in').value='';addMsg(q,'u');
+  if(DEMO||!SB){addMsg('Connect a workspace to ask questions about real usage.','b');return;}
+  if(!AI_PROXY_URL){addMsg('The AI service isn’t configured yet (AI_PROXY_URL is empty).','b');return;}
+  addMsg('Checking the records…','b');
+  try{
+    const since=new Date(Date.now()-30*86400000).toISOString();
+    const usage=await fetchAll('usage_events','input_tokens,output_tokens,created_at,project_id',q2=>q2.gte('created_at',since).order('created_at',{ascending:false})).then(r=>r.slice(0,500));
+    const files=await fetchAll('files','status,created_at',q2=>q2.gte('created_at',since));
+    const{data:{session}}=await SB.auth.getSession();
+    const headers={'Content-Type':'application/json'};
+    if(session?.access_token){headers.Authorization='Bearer '+session.access_token;headers.apikey=SB_ANON;}
+    const system=`You answer questions about a business's automation usage using ONLY the JSON records provided. If the records do not contain the answer, say so plainly. Never invent figures. Keep answers to 2-4 sentences.`;
+    const res=await fetch(AI_PROXY_URL,{method:'POST',headers,body:JSON.stringify({action:'raw',org_id:ORG,system,content:[{type:'text',text:`Records (last 30 days): ${JSON.stringify({usage,files}).slice(0,8000)}\n\nQuestion: ${q}`}],max_tokens:400})});
+    const data=await res.json().catch(()=>({}));
+    const reply=res.ok?(data.text||'No answer came back.'):'Could not answer: '+(data.error||'the service returned '+res.status);
+    $('chat').lastElementChild.remove();addMsg(reply,'b');
+  }catch(e){$('chat').lastElementChild.remove();addMsg('Could not answer: '+e.message,'b');}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#07130D"/>
+<meta name="description" content="Wisurel turns receipt photos, staff reports and bank statements into organised business records for Wisurel Ogbomosho Farm. Nothing counts until it is checked."/>
+<title>Wisurel AI — Organised records for Wisurel Ogbomosho Farm</title>
+<link rel="icon" type="image/svg+xml" href="wisurel-logo.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#07130D;--bg2:#0C1E14;--bg3:#0F2718;--bgi:#0A1B12;--b1:rgba(34,197,94,.14);--b2:rgba(34,197,94,.28);
+  --v:#16A34A;--t:#4ADE80;--am:#FBBF24;--rd:#F43F5E;--wh:#F0EEFF;--mu:#A4B3A9;--fa:#6B7F72;--aurora:linear-gradient(135deg,#166534,#22C55E,#4ADE80)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--wh);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+:focus-visible{outline:2px solid var(--t);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.skip{position:absolute;left:12px;top:-60px;background:var(--t);color:#04140a;padding:8px 12px;border-radius:8px;z-index:100;font-weight:700}
+.skip:focus{top:12px}
+.nav{position:sticky;top:0;z-index:50;background:rgba(7,19,13,.94);backdrop-filter:blur(12px);border-bottom:.5px solid var(--b1)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.nav-logo{height:32px}
+.nav-links{display:flex;gap:24px;align-items:center;font-size:13.5px;font-weight:600;color:var(--mu)}
+.nav-links a:hover{color:var(--t)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14.5px;padding:13px 22px;border-radius:10px;white-space:nowrap}
+.btn-pri{background:var(--aurora);color:#04140a}
+.btn-pri:hover{filter:brightness(1.07)}
+.btn-sec{border:.5px solid var(--b2);color:var(--wh);background:rgba(255,255,255,.03)}
+.btn-sec:hover{background:rgba(255,255,255,.07)}
+.menu-btn{display:none;width:44px;height:44px;align-items:center;justify-content:center;border-radius:10px;border:.5px solid var(--b2)}
+.menu-btn span{display:block;width:18px;height:2px;background:var(--wh);position:relative}
+.menu-btn span::before,.menu-btn span::after{content:'';position:absolute;left:0;width:18px;height:2px;background:var(--wh)}
+.menu-btn span::before{top:-6px}.menu-btn span::after{top:6px}
+@media(max-width:900px){
+  .menu-btn{display:inline-flex}
+  .nav-links{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:var(--bg2);border-bottom:.5px solid var(--b1);padding:6px 0}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:14px 22px;border-top:.5px solid var(--b1)}
+  .nav-cta-desk{display:none}
+}
+.nav-cta-desk{padding:9px 16px;font-size:13px}
+.hero{padding:76px 0 56px;text-align:center}
+.badge{display:inline-flex;gap:7px;font-size:12px;font-weight:700;color:var(--t);border:.5px solid var(--b2);background:rgba(74,222,128,.07);padding:6px 14px;border-radius:20px;margin-bottom:22px}
+h1{font-size:clamp(32px,5.6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1.1;max-width:860px;margin:0 auto 18px}
+h1 em{font-style:normal;color:var(--t)}
+.lede{font-size:17px;color:var(--mu);max-width:640px;margin:0 auto 30px}
+.ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero-shot{max-width:900px;margin:52px auto 0;border-radius:16px;overflow:hidden;border:.5px solid var(--b2);box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.hero-shot img{width:100%}
+.hero-shot p{font-size:12px;color:var(--fa);padding:10px 14px;background:var(--bg2);text-align:left}
+.capacity{max-width:720px;margin:26px auto 0;font-size:12.5px;color:var(--fa)}
+section{padding:72px 0;border-top:.5px solid var(--b1)}
+.eyebrow{font-size:12px;font-weight:700;color:var(--t);text-transform:uppercase;letter-spacing:.09em;margin-bottom:10px}
+h2{font-size:clamp(25px,3.8vw,36px);font-weight:800;letter-spacing:-.01em;margin-bottom:12px;line-height:1.2}
+.sub{color:var(--mu);max-width:640px;margin-bottom:38px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}.grid4{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.grid4{grid-template-columns:1fr}}
+.card{background:var(--bg2);border:.5px solid var(--b1);border-radius:16px;padding:24px}
+.card h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.card p{font-size:13.5px;color:var(--mu);line-height:1.6}
+.card .k{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fa);margin-top:14px}
+.card .k+p{margin-top:3px}
+.card .benefit{margin-top:14px;padding-top:12px;border-top:.5px solid var(--b1);color:var(--wh);font-size:13px;font-weight:600}
+.num{width:34px;height:34px;border-radius:9px;background:var(--aurora);color:#04140a;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:820px){.ba{grid-template-columns:1fr}}
+.ba-col{border-radius:16px;padding:24px;border:.5px solid var(--b1)}
+.ba-col.before{background:rgba(244,63,94,.04);border-color:rgba(244,63,94,.2)}
+.ba-col.with{background:rgba(74,222,128,.05);border-color:var(--b2)}
+.ba-col h3{font-size:15px;margin-bottom:14px}
+.ba-col ol{list-style:none;display:flex;flex-direction:column;gap:8px}
+.ba-col li{font-size:13.5px;color:var(--mu);padding:9px 12px;background:rgba(0,0,0,.2);border-radius:9px}
+.ba-col.with li{color:var(--wh)}
+.chat{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.msg{padding:12px 15px;border-radius:14px;font-size:14px;line-height:1.55;max-width:88%}
+.msg.staff{background:rgba(37,211,102,.12);border:.5px solid rgba(37,211,102,.3);align-self:flex-start}
+.msg.wis{background:var(--bg2);border:.5px solid var(--b2);align-self:flex-end}
+.msg .who{font-size:10.5px;font-weight:700;color:var(--fa);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.msg ul{padding-left:18px;margin-top:6px}
+.note{font-size:12.5px;color:var(--fa);max-width:640px;margin:20px auto 0;text-align:center}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.tag{font-size:12px;font-weight:700;padding:5px 10px;border-radius:7px;border:.5px solid}
+.tag.ok{color:var(--t);border-color:rgba(74,222,128,.35);background:rgba(74,222,128,.08)}
+.tag.warn{color:var(--am);border-color:rgba(251,191,36,.35);background:rgba(251,191,36,.08)}
+.tag.bad{color:#FCA5A5;border-color:rgba(244,63,94,.35);background:rgba(244,63,94,.08)}
+.tag.info{color:#93C5FD;border-color:rgba(59,130,246,.35);background:rgba(59,130,246,.08)}
+.fmt{display:flex;flex-wrap:wrap;gap:8px}
+.fmt span{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;padding:8px 12px;border-radius:8px;border:.5px solid var(--b2);color:var(--t)}
+.faq{max-width:820px;margin:0 auto}
+.faq details{border-bottom:.5px solid var(--b1);padding:18px 4px}
+.faq summary{font-weight:700;font-size:15.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';color:var(--t);font-size:20px;line-height:1;font-weight:500}
+.faq details[open] summary::after{content:'−'}
+.faq details p{color:var(--mu);font-size:14px;margin-top:10px;line-height:1.7}
+.cta-band{background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(74,222,128,.02));border:.5px solid var(--b2);border-radius:24px;padding:56px 32px;text-align:center}
+.cta-band p{color:var(--mu);max-width:560px;margin:0 auto 26px}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.price-grid{grid-template-columns:1fr}}
+.price-card{background:var(--bg2);border:.5px solid var(--b1);border-radius:16px;padding:26px;display:flex;flex-direction:column}
+.price-card h3{font-size:13px;font-weight:700;color:var(--t);letter-spacing:.04em;margin-bottom:8px}
+.price-card .big{font-size:26px;font-weight:800;margin-bottom:6px}
+.price-card p{font-size:13px;color:var(--mu);margin-bottom:14px}
+.price-card ul{list-style:none;flex:1;margin-bottom:14px}
+.price-card li{font-size:13px;padding:6px 0;color:var(--wh);display:flex;gap:8px}
+.price-card li::before{content:'✓';color:var(--t);font-weight:800}
+footer{border-top:.5px solid var(--b1);padding:48px 0 36px}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:28px}
+@media(max-width:820px){.foot{grid-template-columns:1fr 1fr}}
+.foot h4{font-size:12px;font-weight:700;color:var(--fa);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px}
+.foot a,.foot p{display:block;font-size:13.5px;color:var(--mu);margin-bottom:9px}
+.foot a:hover{color:var(--t)}
+.foot-bottom{margin-top:36px;padding-top:20px;border-top:.5px solid var(--b1);font-size:12px;color:var(--fa);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a href="index.html" aria-label="Wisurel home"><img class="nav-logo" src="wisurel-logo.svg" alt="Wisurel Ogbomosho Farm"/></a>
+    <nav aria-label="Main" class="nav-links" id="nav-menu">
+      <a href="#features">Features</a>
+      <a href="#reconciliation">Reconciliation</a>
+      <a href="#whatsapp">WhatsApp</a>
+      <a href="#costs">Running costs</a>
+      <a href="#faq">FAQ</a>
+      <a href="#security">Security</a>
+    </nav>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a class="btn btn-pri nav-cta-desk" href="app.html">Open the app</a>
+      <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<div class="hero wrap">
+  <div class="badge">🌾 Built for Wisurel Ogbomosho Farm</div>
+  <h1>Stop chasing <em>receipts, reports</em> and spreadsheets.</h1>
+  <p class="lede">Wisurel turns receipt photos, staff reports and bank statements into one set of organised business records. Anything unclear or repeated waits for a person to check it before it counts.</p>
+  <div class="ctas">
+    <a class="btn btn-pri" href="app.html">Open the app →</a>
+    <a class="btn btn-sec" href="#how">See how it works</a>
+  </div>
+  <div class="hero-shot">
+    <img src="preview-screenshots/preview-dashboard.png" alt="The Wisurel dashboard, showing spend, transactions, money in, pending review and recent receipts" width="1280" height="860"/>
+    <p>The dashboard. Figures are calculated from your records, and the period can be changed.</p>
+  </div>
+  <p class="capacity">The app is designed to handle up to 1,000 documents a day. That is the design capacity, not a measured result.</p>
+</div>
+
+<section class="wrap" id="before-after" aria-labelledby="ba-title">
+  <div class="eyebrow">Before and after</div>
+  <h2 id="ba-title">From scattered paperwork to one record</h2>
+  <p class="sub">Most of the work is copying the same information from one place to another. Wisurel does the copying, and asks a person only where something doesn't look right.</p>
+  <div class="ba">
+    <div class="ba-col before">
+      <h3>Without Wisurel</h3>
+      <ol>
+        <li>Receipt photos in phones and WhatsApp</li>
+        <li>Staff messages nobody has time to read</li>
+        <li>Manual entry into spreadsheets</li>
+        <li>Bank statements checked by hand</li>
+        <li>Searching for the receipt behind a line</li>
+      </ol>
+    </div>
+    <div class="ba-col with">
+      <h3>With Wisurel</h3>
+      <ol>
+        <li>Photo or file uploaded once</li>
+        <li>AI reads date, amount, description, category and reference</li>
+        <li>Clear records stored; unclear or repeated ones wait for review</li>
+        <li>Bank statement matched against approved records</li>
+        <li>Reports, exports and a weekly digest on demand</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="how" aria-labelledby="how-title">
+  <div class="eyebrow">How it works</div>
+  <h2 id="how-title">Four steps, and a person checks the uncertain ones</h2>
+  <p class="sub">Nothing reaches your totals just because the AI read it. Approved records count; everything else waits.</p>
+  <div class="grid4">
+    <div class="card"><div class="num">1</div><h3>Capture</h3><p>Take a photo with your phone or upload a PDF, image, spreadsheet or document.</p></div>
+    <div class="card"><div class="num">2</div><h3>Read</h3><p>The AI extracts the fields on the document. Each record keeps its source file name.</p></div>
+    <div class="card"><div class="num">3</div><h3>Check</h3><p>Repeats and unreadable details wait in "Needs your review" with the reason, and nothing counts until approved.</p></div>
+    <div class="card"><div class="num">4</div><h3>Use</h3><p>Records feed the ledger, reconciliation, reports, exports and the weekly digest.</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="features" aria-labelledby="feat-title">
+  <div class="eyebrow">Features</div>
+  <h2 id="feat-title">What it does, by job</h2>
+  <p class="sub">Eight things the app does today. Each one is in the app now; the notes say where a connection to WhatsApp or an email service is also needed.</p>
+  <div class="grid3">
+    <div class="card"><h3>AI receipt processing</h3><p>Turns a photo or document into structured records.</p><div class="k">Problem</div><p>Receipts pile up and get typed in later, if at all.</p><div class="k">Solution</div><p>The AI reads each document and fills in its fields for you to check.</p><div class="benefit">Entries made from the photo, not from memory</div></div>
+    <div class="card"><h3>Financial records</h3><p>One ledger for money in and money out.</p><div class="k">Problem</div><p>Totals are wrong when the same item is entered twice.</p><div class="k">Solution</div><p>Records can be searched, filtered, sorted and edited. Repeats are flagged.</p><div class="benefit">One place to look for any figure</div></div>
+    <div class="card"><h3>Bank reconciliation</h3><p>Matches a bank statement against approved records.</p><div class="k">Problem</div><p>Checking a statement line by line takes hours.</p><div class="k">Solution</div><p>Lines are matched by amount and date, and what doesn't match is listed.</p><div class="benefit">The gaps are shown, not hidden</div></div>
+    <div class="card"><h3>WhatsApp staff reports</h3><p>Staff report by message, and the report is summarised.</p><div class="k">Problem</div><p>Reports are read late or not at all.</p><div class="k">Solution</div><p>Each message is recorded, summarised, and issues are flagged for management.</p><div class="benefit">Needs WhatsApp connected first (see below)</div></div>
+    <div class="card"><h3>Weekly digest</h3><p>A summary of the week for management.</p><div class="k">Problem</div><p>Someone has to pull the numbers together every week.</p><div class="k">Solution</div><p>Total spend, categories, report compliance and flagged issues, sent on request or on a schedule.</p><div class="benefit">Sent to the people you choose</div></div>
+    <div class="card"><h3>Custom automations</h3><p>Describe a process; Wisurel designs its sheet.</p><div class="k">Problem</div><p>Every new process needs a new spreadsheet built by hand.</p><div class="k">Solution</div><p>Describe it in plain English. You review the proposed columns, then confirm.</p><div class="benefit">Nothing goes live without your confirmation</div></div>
+    <div class="card"><h3>Reports and exports</h3><p>Preview a report, then take it with you.</p><div class="k">Problem</div><p>Reports need reformatting before anyone can read them.</p><div class="k">Solution</div><p>Choose a period and a report type, preview it, then export.</p><div class="benefit">Seven file formats, listed below</div></div>
+    <div class="card"><h3>Assistant</h3><p>Ask questions about your records in plain English.</p><div class="k">Problem</div><p>Answers are buried in several sheets.</p><div class="k">Solution</div><p>The assistant answers from the records it is given, and says so when they don't contain the answer.</p><div class="benefit">Answers you can trace back to records</div></div>
+    <div class="card"><h3>Admin control</h3><p>Owners and admins manage who can use the system.</p><div class="k">Problem</div><p>Anyone can end up with more access than they need.</p><div class="k">Solution</div><p>Roles and invite codes are checked by the database, not only by the screen.</p><div class="benefit">Access you can see and withdraw</div></div>
+  </div>
+</section>
+
+<section class="wrap" id="receipts" aria-labelledby="rc-title">
+  <div class="eyebrow">Receipt processing</div>
+  <h2 id="rc-title">What the AI reads from a receipt</h2>
+  <p class="sub">The fields below are the ones the extraction asks for. Each can be corrected before a record is approved.</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>Fields extracted</h3>
+      <div class="tags" style="margin-top:12px">
+        <span class="tag info">Date</span><span class="tag info">Description</span><span class="tag info">Amount</span><span class="tag info">Debit or credit</span><span class="tag info">Category</span><span class="tag info">Sender</span><span class="tag info">Recipient</span><span class="tag info">Bank</span><span class="tag info">Reference</span><span class="tag info">Notes</span>
+      </div>
+      <p style="margin-top:14px">Categories follow the list set for the farm: feed, salaries, fuel, construction, medical, utilities, office, transfers and other.</p>
+    </div>
+    <div class="card">
+      <h3>What the record can show</h3>
+      <div class="tags" style="margin-top:12px">
+        <span class="tag ok">Ready to approve</span><span class="tag warn">Possible duplicate</span><span class="tag bad">Check details</span>
+      </div>
+      <p style="margin-top:14px">A possible duplicate lists its reasons: same amount, same date or a day apart, similar description, and same reference number if there is one. You can keep both, mark it as a duplicate, or decide later. Nothing is erased; removed items stay in a bin until you restore or leave them.</p>
+    </div>
+  </div>
+  <p class="note">Quality depends on the photo and the document. Blurred or cropped receipts are the most likely to need checking.</p>
+</section>
+
+<section class="wrap" id="reconciliation" aria-labelledby="rec-title">
+  <div class="eyebrow">Bank reconciliation</div>
+  <h2 id="rec-title">Check a statement against your records</h2>
+  <p class="sub">Upload your bank statement as CSV or Excel. Wisurel compares each line with approved records and lists what doesn't line up.</p>
+  <div class="grid3">
+    <div class="card"><div class="num">1</div><h3>Upload</h3><p>Upload a CSV or Excel export from your bank. Dates and amounts are read from the common column names.</p></div>
+    <div class="card"><div class="num">2</div><h3>Match</h3><p>A line matches a record when the amount is the same and the dates are within five days of each other.</p></div>
+    <div class="card"><div class="num">3</div><h3>Review</h3><p>Lines that didn't match are listed on their own, so you can see what needs attention.</p></div>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>Statuses you will see</h3>
+    <div class="tags" style="margin-top:12px">
+      <span class="tag ok">Matched</span><span class="tag warn">Bank line with no receipt</span><span class="tag warn">Receipt not in the bank</span><span class="tag warn">Possible duplicate</span><span class="tag bad">Needs review</span>
+    </div>
+    <p style="margin-top:14px">Matching uses amount and date only, so two different payments of the same amount on nearby days can match each other. Check the lines it lists before relying on the result.</p>
+  </div>
+</section>
+
+<section class="wrap" id="whatsapp" aria-labelledby="wa-title">
+  <div class="eyebrow">WhatsApp</div>
+  <h2 id="wa-title">Staff report by message</h2>
+  <p class="sub">Once WhatsApp is connected to the system, a staff member can send a report in a normal message. The example below is how it is handled.</p>
+  <div class="chat" aria-label="Example WhatsApp exchange">
+    <div class="msg staff"><div class="who">Staff</div>Bought 20 bags of feed today for ₦480,000 from XYZ supplier.</div>
+    <div class="msg wis"><div class="who">Wisurel</div>
+      Report recorded.
+      <ul>
+        <li>Summary: 20 bags of feed bought from XYZ supplier for ₦480,000.</li>
+        <li>Flagged: none.</li>
+        <li>Visible to management on the Daily Reports page and in the weekly digest.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="note">This needs WhatsApp Business set up through Meta (README section 4). Until it is, no staff messages arrive, and the page says so. Meta may charge for some messages; check Meta's current pricing for your country.</p>
+</section>
+
+<section class="wrap" id="automations" aria-labelledby="au-title">
+  <div class="eyebrow">Automations</div>
+  <h2 id="au-title">Describe the process, then confirm the design</h2>
+  <p class="sub">An automation is a record that a process is tracked and where. It is not a one-off spreadsheet.</p>
+  <div class="grid4">
+    <div class="card"><div class="num">1</div><h3>Describe</h3><p>"Track feed deliveries by supplier, bags and cost."</p></div>
+    <div class="card"><div class="num">2</div><h3>Propose</h3><p>The AI proposes sheets and columns. It is saved as a Draft.</p></div>
+    <div class="card"><div class="num">3</div><h3>Confirm</h3><p>You review the names and columns, then activate it. Nothing is recorded before that.</p></div>
+    <div class="card"><div class="num">4</div><h3>Record</h3><p>Add rows, pause or resume, or edit. Columns with data can be renamed, not removed.</p></div>
+  </div>
+  <p class="note">Automations are kept on the device they were created on for now. Server storage is not built yet.</p>
+</section>
+
+<section class="wrap" id="exports" aria-labelledby="ex-title">
+  <div class="eyebrow">Exports</div>
+  <h2 id="ex-title">Take your records with you</h2>
+  <p class="sub">Every export is a file you download. You keep it; Wisurel does not send it anywhere.</p>
+  <div class="fmt" aria-label="Export formats">
+    <span>.xlsx</span><span>.csv</span><span>.pdf</span><span>.json</span><span>.txt</span><span>.md</span><span>.doc</span>
+  </div>
+  <p class="note">Excel and PDF load their libraries from the web the first time you use them, so they need an internet connection. Word is produced as a .doc file.</p>
+</section>
+
+<section class="section wrap" id="costs" aria-labelledby="co-title">
+  <div class="eyebrow">Running costs</div>
+  <h2 id="co-title">Built for Wisurel Ogbomosho Farm</h2>
+  <p class="sub">This is an internal tool for the farm's own operations, not a product being sold. Each provider bills the farm's own account directly.</p>
+  <div class="price-grid" style="grid-template-columns:1fr">
+    <div class="price-card">
+      <h3>WHO BILLS FOR WHAT</h3>
+      <ul>
+        <li>Anthropic: AI usage, pay as you go, on the farm's own account</li>
+        <li>Supabase: database and sign-in, on the farm's own account</li>
+        <li>Meta: WhatsApp messages, per Meta's current pricing</li>
+        <li>Resend: email, optional, on the farm's own account</li>
+        <li>GitHub Pages: hosting the app</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap" id="security" aria-labelledby="se-title">
+  <div class="eyebrow">Security and trust</div>
+  <h2 id="se-title">What is protected, and how</h2>
+  <p class="sub">Each point below is in the code today. Some depend on the setup in the README, and that is said where it applies.</p>
+  <div class="grid2">
+    <div class="card"><h3>Sign-in</h3><p>Accounts sign in with Supabase Auth. Sign-up needs an invite code, checked by the database.</p></div>
+    <div class="card"><h3>Separation between workspaces</h3><p>Every table has row-level security tied to your workspace, so a signed-in account can only read its own workspace's records.</p></div>
+    <div class="card"><h3>Roles checked on the server</h3><p>Owners and admins change roles through database functions that check the caller. A member cannot raise their own role.</p></div>
+    <div class="card"><h3>AI key kept off the page</h3><p>In a connected workspace the AI key is held as a server secret, and the page calls a function that checks who is asking.</p></div>
+    <div class="card"><h3>Scheduled jobs protected</h3><p>The weekly digest and the processing run need a secret from the scheduler, so a stranger cannot trigger them.</p></div>
+    <div class="card"><h3>WhatsApp requests verified</h3><p>When the app secret is set, every webhook request is checked against Meta's signature before anything in it is trusted.</p></div>
+  </div>
+  <div class="card" style="margin-top:18px;border-color:rgba(251,191,36,.3)">
+    <h3>What is not claimed</h3>
+    <p>Wisurel holds no certification: not SOC 2, ISO 27001, GDPR or PCI. No independent security audit has been carried out. The app keeps no AI key in the browser. Records are stored in the farm's own database, behind sign-in. The database rules are tested as written, and should be checked on your own project before real data goes in (README sections 15 and 21).</p>
+  </div>
+</section>
+
+<section class="section wrap" id="faq" aria-labelledby="faq-title">
+  <div class="eyebrow">FAQ</div>
+  <h2 id="faq-title">Questions people ask</h2>
+  <div class="faq" style="margin-top:28px">
+    <details><summary>What is Wisurel?</summary><p>An internal records tool for Wisurel Ogbomosho Farm. It reads receipts and documents, keeps the approved records, checks bank statements, and produces reports and a weekly digest.</p></details>
+    <details><summary>Who is it for?</summary><p>The farm's staff and management. It is built for Wisurel's own operations and is not offered to other businesses.</p></details>
+    <details><summary>Does it work on a phone?</summary><p>Yes. It is laid out for phones and checked at widths from 320 to 412 pixels, and the camera can be used to capture receipts.</p></details>
+    <details><summary>Can staff report through WhatsApp?</summary><p>Yes, once WhatsApp Business is connected (README section 4). Until then, no messages arrive and the Daily Reports page says so.</p></details>
+    <details><summary>Do staff need an account?</summary><p>To use the app, yes: an account and an invite code. Reporting by WhatsApp needs only the staff member's number to be registered.</p></details>
+    <details><summary>How does receipt processing work?</summary><p>The AI reads the photo or document and fills in the fields listed above. The records go to "Needs your review" if a repeat is found or a field can't be read; the rest are added to the ledger.</p></details>
+    <details><summary>What happens when the AI can't read a receipt?</summary><p>It is never silently accepted. An unreadable field is marked "Check details" and cannot be approved until it is fixed. If the whole extraction fails, the file shows as failed and can be retried.</p></details>
+    <details><summary>Can I edit the extracted data?</summary><p>Yes. Edit a record before approving it, or any time afterwards from the ledger. Changes are saved, and approved records remain editable.</p></details>
+    <details><summary>Can I export my records?</summary><p>Yes, as Excel, CSV, PDF, JSON, plain text, Markdown or Word. Reports can be exported the same way.</p></details>
+    <details><summary>Can I reconcile a bank statement?</summary><p>Yes, from a CSV or Excel export. Lines are matched on amount and date, and the lines that don't match are listed.</p></details>
+    <details><summary>Does Wisurel store my documents?</summary><p>Uploaded files are kept in your workspace's private storage, and only signed-in members of that workspace can read them. The app does not yet delete stored files when a record is removed.</p></details>
+    <details><summary>Where is the AI key stored?</summary><p>It is a server secret on the farm's Supabase project and never reaches the browser.</p></details>
+    <details><summary>Does it work offline?</summary><p>No. Processing needs an internet connection, and the app loads its libraries from the web.</p></details>
+    <details><summary>What does a connected setup need?</summary><p>A Supabase project, an Anthropic API key, hosting for the app (GitHub Pages works), and, if wanted, WhatsApp through Meta and email through Resend. The README lists each step.</p></details>
+    <details><summary>How much does WhatsApp cost?</summary><p>Meta charges according to its own pricing, which depends on message type and country. Check Meta's current price list before relying on any figure.</p></details>
+    <details><summary>Can I create my own automations?</summary><p>Yes. Describe the process, review the proposed columns, then confirm. Nothing is recorded until you do.</p></details>
+    <details><summary>Can several people use it?</summary><p>Yes. Owners and admins invite others with a code and a role: member, admin, or owner.</p></details>
+    <details><summary>How is access separated?</summary><p>Each workspace's records are protected by row-level security in the database. The app is set up for one workspace, the farm's.</p></details>
+  </div>
+</section>
+
+<section class="wrap" aria-labelledby="cta-title" style="padding:40px 22px 80px">
+  <div class="cta-band">
+    <h2 id="cta-title">Put your paperwork on autopilot.</h2>
+    <p>Capture receipts, organise records, check bank statements and get reports without building the sheets by hand.</p>
+    <div class="ctas">
+      <a class="btn btn-pri" href="app.html">Open the app →</a>
+      <a class="btn btn-sec" href="#how">See how it works</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div><img src="wisurel-logo.svg" alt="Wisurel Ogbomosho Farm" style="height:34px;margin-bottom:14px"/><p style="color:var(--fa)">Internal records tool for Wisurel Ogbomosho Farm.</p></div>
+      <div><h4>Product</h4><a href="#features">Features</a><a href="#reconciliation">Reconciliation</a><a href="#whatsapp">WhatsApp</a><a href="#automations">Automations</a><a href="#exports">Exports</a></div>
+      <div><h4>Help</h4><a href="#costs">Running costs</a><a href="#security">Security</a><a href="#faq">FAQ</a><a href="app.html">Open the app</a></div>
+      <div><h4>Legal and contact</h4><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><p>Contact details are to be added by Wisurel.</p></div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Wisurel Ogbomosho Farm</span><span>Version 1.0 · internal tool</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const btn=document.getElementById('menu-btn'), menu=document.getElementById('nav-menu');
+  function setOpen(open){btn.setAttribute('aria-expanded',String(open));btn.setAttribute('aria-label',open?'Close menu':'Open menu');menu.classList.toggle('open',open);}
+  btn.addEventListener('click',()=>setOpen(btn.getAttribute('aria-expanded')!=='true'));
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setOpen(false)));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.classList.contains('open')){setOpen(false);btn.focus();}});
+})();
+</script>
+</body>
+</html>

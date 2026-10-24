@@ -1,0 +1,40 @@
+<svg width="640" height="220" viewBox="0 0 640 220" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22C55E"/>
+      <stop offset="100%" stop-color="#15803D"/>
+    </linearGradient>
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ADE80"/>
+      <stop offset="100%" stop-color="#166534"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Mark: circular badge with a stylised wheat/leaf hybrid (farm + growth) -->
+  <g transform="translate(20,20)">
+    <circle cx="90" cy="90" r="88" fill="#0B1F13"/>
+    <circle cx="90" cy="90" r="88" fill="none" stroke="url(#ringGrad)" stroke-width="4"/>
+
+    <!-- central stem -->
+    <line x1="90" y1="150" x2="90" y2="45" stroke="url(#leafGrad)" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- wheat-style leaf pairs, alternating, tapering upward -->
+    <g fill="url(#leafGrad)">
+      <path d="M90,130 C70,124 55,110 58,92 C76,96 90,108 90,130 Z"/>
+      <path d="M90,130 C110,124 125,110 122,92 C104,96 90,108 90,130 Z"/>
+      <path d="M90,105 C73,99 60,86 63,70 C79,74 90,86 90,105 Z"/>
+      <path d="M90,105 C107,99 120,86 117,70 C101,74 90,86 90,105 Z"/>
+      <path d="M90,80 C77,75 68,64 70,52 C83,56 90,66 90,80 Z"/>
+      <path d="M90,80 C103,75 112,64 110,52 C97,56 90,66 90,80 Z"/>
+    </g>
+    <!-- tip -->
+    <circle cx="90" cy="42" r="6" fill="#4ADE80"/>
+  </g>
+
+  <!-- Wordmark -->
+  <g transform="translate(220,0)">
+    <text x="0" y="105" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-weight="700" fill="#F0F4F1" letter-spacing="1">WISUREL</text>
+    <text x="0" y="140" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="600" letter-spacing="4" fill="#4ADE80">OGBOMOSHO FARM</text>
+    <rect x="2" y="152" width="360" height="3" rx="1.5" fill="url(#leafGrad)"/>
+  </g>
+</svg>
